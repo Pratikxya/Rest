@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// SUBMITS A USER
+// SUBMITS A USERRRR
 router.post("/", async (req, res) => {
   const user = new user({
     email: req.body.email,
