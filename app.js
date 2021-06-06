@@ -12,9 +12,11 @@ app.use(express.json());
 //Import Routes
 const postsRoute = require("./routes/posts");
 const commentsRoute = require("./routes/comments");
+const usersRoute = require("./routes/users");
 
 app.use("/posts", postsRoute);
 app.use("/comments", commentsRoute);
+app.use("/users", usersRoute);
 
 //Routes
 app.get("/", (req, res) => {

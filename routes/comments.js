@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 // SUBMITS A COMMENT
 router.post("/", async (req, res) => {
   const comment = new Comment({
-    title: req.body.title,
+    comment: req.body.comment,
   });
   try {
     const savedComment = await comment.save();
