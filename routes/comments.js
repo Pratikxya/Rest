@@ -5,7 +5,7 @@ const Comment = require("../models/Comment");
 // GET BACK ALL THE COMMENTS
 router.get("/", async (req, res) => {
   try {
-    const Comments = await Comment.find();
+    const comments = await Comment.find();
     res.json(comments);
   } catch (err) {
     res.json({ message: err });
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
 });
 
 // SUBMITS A COMMENT
-router.comment("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const comment = new Comment({
     title: req.body.title,
   });
