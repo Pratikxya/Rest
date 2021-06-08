@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import Post from "../models/Post";
+import Post from "../models/Post.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
@@ -59,4 +59,4 @@ router.patch("/:postId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

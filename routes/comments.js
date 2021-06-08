@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import Comment from "../models/Comment";
+import Comment from "../models/Comment.js";
 
 // GET BACK ALL THE COMMENTS
 router.get("/", async (req, res) => {
@@ -58,4 +58,4 @@ router.patch("/:commentId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

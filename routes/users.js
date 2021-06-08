@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import User from "../models/User";
+import User from "../models/User.js";
 
 // GET BACK ALL THE USERS
 router.get("/", async (req, res) => {
@@ -60,4 +60,4 @@ router.patch("/:userId", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
