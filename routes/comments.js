@@ -39,6 +39,7 @@ router.get("/:commentId", async (req, res) => {
 router.delete("/:commentId", async (req, res) => {
   try {
     const removedComment = await Comment.remove({ _id: req.params.commentId });
+    res.json({ message: "Deleted Succesfully" });
   } catch (err) {
     res.json({ message: err });
   }

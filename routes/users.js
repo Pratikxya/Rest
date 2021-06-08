@@ -5,7 +5,7 @@ import User from "../models/User.js";
 // GET BACK ALL THE USERS
 router.get("/", async (req, res) => {
   try {
-    const users = await user.find();
+    const users = await User.find();
     res.json(users);
   } catch (err) {
     res.json({ message: err });
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A USERRRR
 router.post("/", async (req, res) => {
-  const user = new User({
+  const User = new User({
     email: req.body.email,
     password: req.body.password,
     age: req.body.age,
@@ -40,7 +40,8 @@ router.get("/:userId", async (req, res) => {
 //Delete USER
 router.delete("/:userId", async (req, res) => {
   try {
-    const removedUser = await user.remove({ _id: req.params.userId });
+    const removedUser = await User.deleteOne({ _id: req.params.userId });
+    res.json({ message: "Deleted Succesfully" });
   } catch (err) {
     res.json({ message: err });
   }
