@@ -18,7 +18,7 @@ router.post("/", async (req, res) => {
     comment: req.body.comment,
   });
   try {
-    const savedComment = await comment.save();
+    const savedComment = await Comment.save();
     res.json(savedComment);
   } catch (err) {
     res.json({ message: err });

@@ -14,13 +14,13 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A USERRRR
 router.post("/", async (req, res) => {
-  const User = new User({
+  const user = new User({
     email: req.body.email,
     password: req.body.password,
     age: req.body.age,
   });
   try {
-    const savedUser = await user.save();
+    const savedUser = await User.save();
     res.json(savedUser);
   } catch (err) {
     res.json({ message: err });
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
 //SPECIFIC USER
 router.get("/:userId", async (req, res) => {
   try {
-    const user = await user.findById(req.params.userId);
+    const user = await User.findById(req.params.userId);
     res.json(user);
   } catch (err) {
     res.json({ message: err });
@@ -51,7 +51,7 @@ router.delete("/:userId", async (req, res) => {
 
 router.patch("/:userId", async (req, res) => {
   try {
-    const updateUser = await user.updateOne(
+    const updateUser = await User.updateOne(
       { _id: req.params.userId },
       { $set: { title: req.body.title } }
     );

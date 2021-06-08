@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
     description: req.body.description,
   });
   try {
-    const savedPost = await post.save();
+    const savedPost = await Post.save();
     res.json(savedPost);
   } catch (err) {
     res.json({ message: err });
