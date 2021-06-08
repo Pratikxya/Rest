@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
     age: req.body.age,
   });
   try {
-    const savedUser = await User.save();
+    const savedUser = await user.save();
     res.json(savedUser);
   } catch (err) {
     res.json({ message: err });
