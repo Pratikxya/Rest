@@ -7,6 +7,7 @@ const port = process.env.port || 3000;
 
 //Middlewares
 app.use(cors());
+app.use(json());
 
 //Import Routes
 import postsRoute from "./routes/posts.js";
