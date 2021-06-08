@@ -9,9 +9,9 @@ const port = process.env.port || 3000;
 app.use(cors());
 
 //Import Routes
-import postsRoute from "./routes/posts";
-import commentsRoute from "./routes/comments";
-import usersRoute from "./routes/users";
+import postsRoute from "./routes/posts.js";
+import commentsRoute from "./routes/comments.js";
+import usersRoute from "./routes/users.js";
 
 app.use("/posts", postsRoute);
 app.use("/comments", commentsRoute);
