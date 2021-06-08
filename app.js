@@ -1,18 +1,17 @@
-const express = require("express");
+import express, { json } from "express";
 const app = express(); // execute express
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv/config");
+import mongoose from "mongoose";
+import cors from "cors";
+import "dotenv/config";
+const port = process.env.port || 3000;
 
 //Middlewares
 app.use(cors());
 
-app.use(express.json());
-
 //Import Routes
-const postsRoute = require("./routes/posts");
-const commentsRoute = require("./routes/comments");
-const usersRoute = require("./routes/users");
+import postsRoute from "./routes/posts";
+import commentsRoute from "./routes/comments";
+import usersRoute from "./routes/users";
 
 app.use("/posts", postsRoute);
 app.use("/comments", commentsRoute);
@@ -32,4 +31,4 @@ mongoose.connect(
 
 //start listening to the server
 
-app.listen(3000, () => console.log("Example app listening on the port !"));
+app.listen(port, () => console.log("Example app listening on the port !"));

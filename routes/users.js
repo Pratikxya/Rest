@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const user = require("../models/user");
+import User from "../models/User";
 
 // GET BACK ALL THE USERS
 router.get("/", async (req, res) => {
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A USERRRR
 router.post("/", async (req, res) => {
-  const user = new user({
+  const user = new User({
     email: req.body.email,
     password: req.body.password,
     age: req.body.age,

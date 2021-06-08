@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const Comment = require("../models/Comment");
+import Comment from "../models/Comment";
 
 // GET BACK ALL THE COMMENTS
 router.get("/", async (req, res) => {
