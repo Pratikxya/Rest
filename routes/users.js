@@ -53,9 +53,15 @@ router.patch("/:userId", async (req, res) => {
   try {
     const updateUser = await User.updateOne(
       { _id: req.params.userId },
-      { $set: { title: req.body.title } }
+      {
+        $set: {
+          email: req.body.email,
+          password: req.body.password,
+          age: req.body.age,
+        },
+      }
     );
-    res.json(updatedUser);
+    res.json({ message: "Updated Succesfully" });
   } catch (err) {
     res.json({ message: err });
   }

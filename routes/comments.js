@@ -49,11 +49,10 @@ router.delete("/:commentId", async (req, res) => {
 
 router.patch("/:commentId", async (req, res) => {
   try {
-    const updateComment = await Comment.updateOne(
-      { _id: req.params.commentId },
-      { $set: { title: req.body.title } }
-    );
-    res.json(updatedComment);
+    const comment = await Comment.findById(req.params.commentId);
+    comment.comment = req.body.comment;
+    const updatedComment = comment.save();
+    res.json({ message: "Updated Succesfully" });
   } catch (err) {
     res.json({ message: err });
   }
