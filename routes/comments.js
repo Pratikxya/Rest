@@ -5,7 +5,7 @@ import Comment from "../models/Comment.js";
 // GET BACK ALL THE COMMENTS
 router.get("/", async (req, res) => {
   try {
-    const comments = await Comment.find();
+    const comments = await Comment.find().populate("post");
     res.json(comments);
   } catch (err) {
     res.json({ message: err });
@@ -16,11 +16,16 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const comment = new Comment({
     comment: req.body.comment,
+    post: req.body.postId,
   });
   try {
-    const savedComment = await comment.save();
+    const savedComment = await comment.save(); //saved the comment
+    const post = await post.findOne({ _id: req.body.postId }); //finding the post for which the comment has to be created
+    post.comments.push(savedComment); //add that comment to the original post
+    post.save(); //save the post with added comment
     res.json(savedComment);
   } catch (err) {
+    console.log(err);
     res.json({ message: err });
   }
 });

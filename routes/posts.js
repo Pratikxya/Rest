@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import Post from "../models/Post.js";
+import Post from "../models/post.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 //SPECIFIC POST
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId); //
     res.json(post);
   } catch (err) {
     res.json({ message: err });
