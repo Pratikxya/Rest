@@ -1,11 +1,11 @@
 import express from "express";
 const router = express.Router();
-import Post from "../models/post.js";
+import PostModel from "../models/post.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await PostModel.find();
     res.json(posts);
   } catch (err) {
     res.json({ message: err });
@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", async (req, res) => {
-  const post = new Post({
+  const post = newPost({
     title: req.body.title,
     description: req.body.description,
   });
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
 //SPECIFIC POST
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId); //
+    const post = await PostModel.findById(req.params.postId);
     res.json(post);
   } catch (err) {
     res.json({ message: err });
@@ -39,7 +39,7 @@ router.get("/:postId", async (req, res) => {
 //Delete Post
 router.delete("/:postId", async (req, res) => {
   try {
-    const removedPost = await Post.remove({ _id: req.params.postId });
+    const removedPost = await PostModel.remove({ _id: req.params.postId });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
     res.json({ message: err });
@@ -50,7 +50,7 @@ router.delete("/:postId", async (req, res) => {
 
 router.patch("/:postId", async (req, res) => {
   try {
-    const updatedPost = await Post.updateOne(
+    const updatedPost = await PostModel.updateOne(
       { _id: req.params.postId },
       { $set: { title: req.body.title, description: req.body.description } }
     );

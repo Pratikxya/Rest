@@ -16,10 +16,10 @@ const PostSchema = mongoose.Schema({
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Comments",
+      ref: "CommentsCollection",
     },
   ],
 });
 
-const postModel = mongoose.model("Posts", PostSchema);
+const postModel = mongoose.model("PostsCollection", PostSchema);
 export default postModel;
