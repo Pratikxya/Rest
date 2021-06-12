@@ -5,7 +5,10 @@ import PostModel from "../models/post.js";
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
   try {
-    const posts = await PostModel.find();
+    const posts = await PostModel.find().populate({
+      path: "comments",
+      select: ["id", "comment"],
+    });
     res.json(posts);
   } catch (err) {
     res.json({ message: err });
@@ -14,7 +17,7 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A POST
 router.post("/", async (req, res) => {
-  const post = newPost({
+  const post = new PostModel({
     title: req.body.title,
     description: req.body.description,
   });

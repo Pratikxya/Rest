@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
 
 // SUBMITS A COMMENT
 router.post("/", async (req, res) => {
-  const comment = newComment({
+  const comment = new CommentModel({
     comment: req.body.comment,
     post: req.body.postId,
   });
