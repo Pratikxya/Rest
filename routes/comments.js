@@ -9,9 +9,7 @@ router.get("/", async (req, res) => {
   try {
     const comments = await CommentModel.find().populate({
       path: "user",
-      populate: {
-        path: "comments",
-      },
+      select: ["email"],
     });
 
     res.json(comments);
@@ -24,13 +22,12 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const comment = new CommentModel({
     comment: req.body.comment,
-    posts: req.body.postsId,
+    posts: req.body.postId,
     user: req.body.userId,
   });
   try {
     const savedComment = await comment.save(); //saved the comment
     const post = await PostModel.findOne({ _id: req.body.postId }); //finding the post for which the comment has to be created
-    const user = await UserModel.findOne({ _id: req.body.userId });
     post.comments.push(savedComment); //add that comment to the original post
     post.save(); //save the post with added comment
     res.json(savedComment);
@@ -43,7 +40,10 @@ router.post("/", async (req, res) => {
 //SPECIFIC COMMENT
 router.get("/:commentId", async (req, res) => {
   try {
-    const comment = await CommentModel.findById(req.params.commentId);
+    const comment = await CommentModel.findById(req.params.commentId).populate({
+      path: "user",
+      select: ["email"],
+    });
     res.json(comment);
   } catch (err) {
     res.json({ message: err });

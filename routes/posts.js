@@ -26,11 +26,12 @@ router.post("/", async (req, res) => {
   try {
     const savedPost = await post.save();
     const user = await UserModel.findOne({ _id: req.body.userId });
-    user.post.push(savedPost);
+    user.posts.push(savedPost);
     user.save();
 
     res.json(savedPost);
   } catch (err) {
+    console.log(err);
     res.json({ message: err });
   }
 });
@@ -38,10 +39,12 @@ router.post("/", async (req, res) => {
 //SPECIFIC POST
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await PostModel.findById(req.params.postId).populate({
-      path: "comments",
-      populate: { path: "user", select: ["email"] },
-    });
+    const post = await PostModel.findById(req.params.postId)
+      .populate({
+        path: "comments",
+        populate: { path: "user", select: ["email"] },
+      })
+      .populate({ path: "user", select: ["email"] });
     res.json(post);
   } catch (err) {
     res.json({ message: err });
