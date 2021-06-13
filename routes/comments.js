@@ -2,11 +2,18 @@ import express from "express";
 const router = express.Router();
 import CommentModel from "../models/Comment.js";
 import PostModel from "../models/post.js";
+import UserModel from "../models/user.js";
 
 // GET BACK ALL THE COMMENTS
 router.get("/", async (req, res) => {
   try {
-    const comments = await CommentModel.find().populate("post");
+    const comments = await CommentModel.find().populate({
+      path: "user",
+      populate: {
+        path: "comments",
+      },
+    });
+
     res.json(comments);
   } catch (err) {
     res.json({ message: err });
@@ -17,11 +24,13 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const comment = new CommentModel({
     comment: req.body.comment,
-    post: req.body.postId,
+    posts: req.body.postsId,
+    user: req.body.userId,
   });
   try {
     const savedComment = await comment.save(); //saved the comment
     const post = await PostModel.findOne({ _id: req.body.postId }); //finding the post for which the comment has to be created
+    const user = await UserModel.findOne({ _id: req.body.userId });
     post.comments.push(savedComment); //add that comment to the original post
     post.save(); //save the post with added comment
     res.json(savedComment);

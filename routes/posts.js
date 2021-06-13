@@ -1,13 +1,15 @@
 import express from "express";
 const router = express.Router();
 import PostModel from "../models/post.js";
+import UserModel from "../models/user.js";
+import CommentModel from "../models/comment.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
   try {
     const posts = await PostModel.find().populate({
-      path: "comments",
-      select: ["id", "comment"],
+      path: "user",
+      select: ["email"],
     });
     res.json(posts);
   } catch (err) {
@@ -20,9 +22,14 @@ router.post("/", async (req, res) => {
   const post = new PostModel({
     title: req.body.title,
     description: req.body.description,
+    user: req.body.userId,
   });
   try {
     const savedPost = await post.save();
+    const user = await UserModel.findOne({ _id: req.body.userId });
+    user.post.push(savedPost);
+    user.save();
+
     res.json(savedPost);
   } catch (err) {
     res.json({ message: err });
@@ -32,7 +39,10 @@ router.post("/", async (req, res) => {
 //SPECIFIC POST
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await PostModel.findById(req.params.postId);
+    const post = await PostModel.findById(req.params.postId).populate({
+      path: "comments",
+      populate: { path: "user", select: ["email"] },
+    });
     res.json(post);
   } catch (err) {
     res.json({ message: err });

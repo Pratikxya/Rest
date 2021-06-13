@@ -9,12 +9,15 @@ const CommentSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  post: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Posts",
-    },
-  ],
+  post: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Posts",
+  },
+
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
 });
 
 const commentModel = mongoose.model("Comments", CommentSchema);
