@@ -2,7 +2,6 @@ import express from "express";
 const router = express.Router();
 import PostModel from "../models/post.js";
 import UserModel from "../models/user.js";
-import CommentModel from "../models/comment.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
