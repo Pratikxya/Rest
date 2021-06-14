@@ -1,6 +1,6 @@
 import express from "express";
 const router = express.Router();
-import CommentModel from "../models/Comment.js";
+import CommentModel from "../models/comment.js";
 import PostModel from "../models/post.js";
 import UserModel from "../models/user.js";
 
@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const comment = new CommentModel({
     comment: req.body.comment,
-    posts: req.body.postId,
+    post: req.body.postId,
     user: req.body.userId,
   });
   try {

@@ -2,6 +2,7 @@ import express from "express";
 const router = express.Router();
 import PostModel from "../models/post.js";
 import UserModel from "../models/user.js";
+import CommentModel from "../models/comment.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
@@ -47,6 +48,22 @@ router.get("/:postId", async (req, res) => {
       .populate({ path: "user", select: ["email"] });
     res.json(post);
   } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/:postId/comment", async (req, res) => {
+  const comment = new CommentModel({
+    comment: req.body.comment,
+    post: req.params.postId,
+    user: req.body.userId,
+  });
+  try {
+    const savedComment = await comment.save();
+    const post = await PostModel.findOne({ _id: req.params.postId });
+    res.json(savedComment);
+  } catch (err) {
+    console.log(err);
     res.status(500).json({ message: err.message });
   }
 });
