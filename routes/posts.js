@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     });
     res.json(posts);
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -32,7 +32,7 @@ router.post("/", async (req, res) => {
     res.json(savedPost);
   } catch (err) {
     console.log(err);
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -47,7 +47,7 @@ router.get("/:postId", async (req, res) => {
       .populate({ path: "user", select: ["email"] });
     res.json(post);
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -57,7 +57,7 @@ router.delete("/:postId", async (req, res) => {
     const removedPost = await PostModel.remove({ _id: req.params.postId });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -71,7 +71,7 @@ router.patch("/:postId", async (req, res) => {
     );
     res.json({ message: "Updated Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 

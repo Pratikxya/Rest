@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
     });
     res.json(users);
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
     const savedUser = await user.save();
     res.json(savedUser);
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -36,7 +36,7 @@ router.get("/:userId", async (req, res) => {
     const user = await UserModel.findById(req.params.userId);
     res.json(user);
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -46,7 +46,7 @@ router.delete("/:userId", async (req, res) => {
     const removedUser = await UserModel.deleteOne({ _id: req.params.userId });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
@@ -66,7 +66,7 @@ router.patch("/:userId", async (req, res) => {
     );
     res.json({ message: "Updated Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.json({ message: err.message });
   }
 });
 
