@@ -6,7 +6,7 @@ import CommentModel from "../models/comment.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
-  let query = {};
+  const query = {};
   req.query.search &&
     (query.title = { $regex: new RegExp(req.query.search), $options: "i" });
 
