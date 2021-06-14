@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
 
     res.json(comments);
   } catch (err) {
-    res.json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
     res.json(savedComment);
   } catch (err) {
     console.log(err);
-    res.json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -46,7 +46,7 @@ router.get("/:commentId", async (req, res) => {
     });
     res.json(comment);
   } catch (err) {
-    res.json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -58,7 +58,7 @@ router.delete("/:commentId", async (req, res) => {
     });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
-    res.json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -71,7 +71,7 @@ router.patch("/:commentId", async (req, res) => {
     const updatedComment = comment.save();
     res.json({ message: "Updated Succesfully" });
   } catch (err) {
-    res.json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 });
 
