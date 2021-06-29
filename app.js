@@ -3,7 +3,7 @@ const app = express(); // execute express
 import mongoose from "mongoose";
 import cors from "cors";
 import "dotenv/config";
-const port = process.env.port || 3000;
+// const port = process.env.port || 3000;
 
 //Middlewares
 app.use(cors());
@@ -13,10 +13,15 @@ app.use(json());
 import postsRoute from "./routes/posts.js";
 import commentsRoute from "./routes/comments.js";
 import usersRoute from "./routes/users.js";
+import authRoute from "./routes/auth.js";
+import verifyRoute from "./routes/verify.js";
 
+//Route Middlewares
 app.use("/posts", postsRoute);
 app.use("/comments", commentsRoute);
 app.use("/users", usersRoute);
+app.use("/api/user", authRoute);
+app.use("/api/verify", verifyRoute);
 
 //Routes
 app.get("/", (req, res) => {
@@ -32,4 +37,4 @@ mongoose.connect(
 
 //start listening to the server
 
-app.listen(port, () => console.log("Example app listening on the port !"));
+app.listen(4000, () => console.log("Example app listening on the port !"));

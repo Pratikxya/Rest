@@ -10,7 +10,7 @@ const UserSchema = mongoose.Schema({
     required: true,
   },
   age: {
-    type: Number,
+    type: String,
     required: true,
   },
   date: {
@@ -25,5 +25,5 @@ const UserSchema = mongoose.Schema({
   ],
 });
 
-const userModel = mongoose.model("Users", UserSchema);
+const userModel = mongoose.model("user", UserSchema);
 export default userModel;
