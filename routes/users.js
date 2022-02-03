@@ -1,20 +1,23 @@
 import express from "express";
 const router = express.Router();
-import User from "../models/User.js";
+
+import UserModel from "../models/user.js";
 
 // GET BACK ALL THE USERS
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await UserModel.find().populate({
+      path: "posts",
+    });
     res.json(users);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
-// SUBMITS A USERRRR
+// SUBMITS A USER
 router.post("/", async (req, res) => {
-  const user = new User({
+  const user = new UserModel({
     email: req.body.email,
     password: req.body.password,
     age: req.body.age,
@@ -23,27 +26,27 @@ router.post("/", async (req, res) => {
     const savedUser = await user.save();
     res.json(savedUser);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
 //SPECIFIC USER
 router.get("/:userId", async (req, res) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await UserModel.findById(req.params.userId);
     res.json(user);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
 //Delete USER
 router.delete("/:userId", async (req, res) => {
   try {
-    const removedUser = await User.deleteOne({ _id: req.params.userId });
+    const removedUser = await UserModel.deleteOne({ _id: req.params.userId });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -51,7 +54,7 @@ router.delete("/:userId", async (req, res) => {
 
 router.patch("/:userId", async (req, res) => {
   try {
-    const updateUser = await User.updateOne(
+    const updateUser = await UserModel.updateOne(
       { _id: req.params.userId },
       {
         $set: {
@@ -63,7 +66,7 @@ router.patch("/:userId", async (req, res) => {
     );
     res.json({ message: "Updated Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 

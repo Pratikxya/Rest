@@ -10,14 +10,20 @@ const UserSchema = mongoose.Schema({
     required: true,
   },
   age: {
-    type: Number,
+    type: String,
     required: true,
   },
   date: {
     type: Date,
     default: Date.now,
   },
+  posts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Posts",
+    },
+  ],
 });
 
-const userModel = mongoose.model("Users", UserSchema);
+const userModel = mongoose.model("user", UserSchema);
 export default userModel;

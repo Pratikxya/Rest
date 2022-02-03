@@ -1,48 +1,84 @@
 import express from "express";
 const router = express.Router();
-import Post from "../models/Post.js";
+import PostModel from "../models/post.js";
+import UserModel from "../models/user.js";
+import CommentModel from "../models/comment.js";
 
 // GET BACK ALL THE POSTS
 router.get("/", async (req, res) => {
+  const query = {};
+  req.query.search &&
+    (query.title = { $regex: new RegExp(req.query.search), $options: "i" });
+
   try {
-    const posts = await Post.find();
+    const posts = await PostModel.find(query).populate({
+      path: "user",
+      select: ["email"],
+    });
     res.json(posts);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
 // SUBMITS A POST
 router.post("/", async (req, res) => {
-  const post = new Post({
+  const post = new PostModel({
     title: req.body.title,
     description: req.body.description,
+    user: req.body.userId,
   });
   try {
     const savedPost = await post.save();
+    const user = await UserModel.findOne({ _id: req.body.userId });
+    user.posts.push(savedPost);
+    user.save();
+
     res.json(savedPost);
   } catch (err) {
-    res.json({ message: err });
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
 //SPECIFIC POST
 router.get("/:postId", async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId);
+    const post = await PostModel.findById(req.params.postId)
+      .populate({
+        path: "comments",
+        populate: { path: "user", select: ["email"] },
+      })
+      .populate({ path: "user", select: ["email"] });
     res.json(post);
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
+  }
+});
+
+router.post("/:postId/comment", async (req, res) => {
+  const comment = new CommentModel({
+    comment: req.body.comment,
+    post: req.params.postId,
+    user: req.body.userId,
+  });
+  try {
+    const savedComment = await comment.save();
+    const post = await PostModel.findOne({ _id: req.params.postId });
+    res.json(savedComment);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 });
 
 //Delete Post
 router.delete("/:postId", async (req, res) => {
   try {
-    const removedPost = await Post.remove({ _id: req.params.postId });
+    const removedPost = await PostModel.remove({ _id: req.params.postId });
     res.json({ message: "Deleted Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 
@@ -50,13 +86,13 @@ router.delete("/:postId", async (req, res) => {
 
 router.patch("/:postId", async (req, res) => {
   try {
-    const updatedPost = await Post.updateOne(
+    const updatedPost = await PostModel.updateOne(
       { _id: req.params.postId },
       { $set: { title: req.body.title, description: req.body.description } }
     );
     res.json({ message: "Updated Succesfully" });
   } catch (err) {
-    res.json({ message: err });
+    res.status(500).json({ message: err.message });
   }
 });
 

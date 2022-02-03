@@ -13,6 +13,16 @@ const PostSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comments",
+    },
+  ],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+  },
 });
 
 const postModel = mongoose.model("Posts", PostSchema);
